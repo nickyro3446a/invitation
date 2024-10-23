@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Reveal</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f8ff;
+            font-family: Arial, sans-serif;
+        }
+        #message {
+            margin-top: 20px;
+            font-size: 24px;
+            color: green;
+            display: none; /* Initially hidden */
+        }
+    </style>
+</head>
+<body>
+
+<h2>Type the password:</h2>
+<input type="text" id="passwordInput" placeholder="Enter password">
+<button onclick="checkPassword()">Submit</button>
+<p id="message">Kia ap meri maa ki bri bahu bongi?</p>
+
+<script>
+    function checkPassword() {
+        const password = document.getElementById('passwordInput').value;
+        const message = document.getElementById('message');
+
+        if (password === "i love u") {
+            message.style.display = 'block'; // Show the message
+        } else {
+            alert("Incorrect password. Try again.");
+            message.style.display = 'none'; // Hide the message
+        }
+    }
+</script>
+
+</body>
+</html>
