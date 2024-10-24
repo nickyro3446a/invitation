@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Protected Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #fff;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 10em;
+            color: rgba(255, 0, 0, 0.1);
+            white-space: nowrap;
+            pointer-events: none;
+            transform: translate(-50%, -50%) rotate(-30deg);
+            z-index: -1;
+        }
+        .container {
+            text-align: center;
+            z-index: 1;
+        }
+        .hidden {
+            display: none;
+        }
+        .options {
+            margin-top: 20px;
+        }
+        .option {
+            display: inline-block;
+            margin: 10px;
+            padding: 15px 30px;
+            border: 2px solid #007BFF;
+            border-radius: 5px;
+            background-color: #fff;
+            color: #007BFF;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .option.clicked {
+            background-color: green;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="watermark">I love you</div>
+
+    <div class="container" id="login">
+        <h2>Enter Password</h2>
+        <input type="password" id="password" placeholder="Password" style="padding: 10px; width: 200px;">
+        <br>
+        <button onclick="checkPassword()" style="padding: 10px 20px; margin-top: 10px;">Submit</button>
+        <p id="error-message" style="color: red;"></p>
+    </div>
+
+    <div class="container hidden" id="question">
+        <h2>Kia ap mere bhai ki chand si biwi ki bhabhi bongi?</h2>
+        <div class="options">
+            <div class="option" onclick="selectOption(this)">Yes</div>
+            <div class="option" onclick="selectOption(this)">Definitely</div>
+        </div>
+    </div>
+
+    <script>
+        function checkPassword() {
+            const passwordInput = document.getElementById('password').value;
+            const correctPassword = 'emaan hassan';
+            const errorMessage = document.getElementById('error-message');
+            if (passwordInput === correctPassword) {
+                document.getElementById('login').classList.add('hidden');
+                document.getElementById('question').classList.remove('hidden');
+                errorMessage.textContent = '';
+            } else {
+                errorMessage.textContent = 'Incorrect password. Please try again.';
+            }
+        }
+
+        function selectOption(element) {
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => option.classList.remove('clicked'));
+            element.classList.add('clicked');
+        }
+    </script>
+
+</body>
+</html>
