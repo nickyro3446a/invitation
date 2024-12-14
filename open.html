@@ -3,233 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alpha College Database Access</title>
+    <title>Interactive Invitation</title>
     <style>
-        /* Basic styles for the form and table */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial, sans-serif';
+            background-color: #ffe6f2; /* Light pink background */
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
-            flex-direction: column;
+            overflow: hidden;
         }
-
-        .container {
-            width: 80%;
-            max-width: 700px;
-            padding: 20px;
-            background: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        .envelope {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background: white;
             border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
-
-        h2 {
+        .envelope::before, .envelope::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 50%;
+            background: white;
+            transform-origin: top;
+            transition: 0.5s;
+        }
+        .envelope::before {
+            top: 0;
+            transform: rotateX(0deg);
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        .envelope::after {
+            bottom: 0;
+            transform: rotateX(0deg);
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+        .invitation {
+            font-family: 'Brush Script MT', cursive;
+            font-size: 24px;
             text-align: center;
             color: #333;
+            display: none;
         }
-
-        .form-group {
-            margin-bottom: 15px;
+        .note {
+            display: none;
+            position: absolute;
+            top: 20px;
+            width: 80%;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
+        .note h3 {
+            margin: 10px 0;
+            color: #ff66b3;
         }
-
-        .form-group input {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
+        .note .icon {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
         }
-
-        .btn {
-            width: 100%;
-            padding: 10px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-            margin-top: 10px;
+        .note .icon img {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+            animation: pulse 1.5s infinite;
         }
-
-        .btn:hover {
-            background-color: #45a049;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-
-        th, td {
-            padding: 8px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        .status-yes {
-            background-color: #d4edda; /* Green */
-            color: #155724;
-        }
-
-        .status-no {
-            background-color: #f8d7da; /* Red */
-            color: #721c24;
-        }
-
-        .link {
-            text-align: center;
+        .note .icon a {
+            text-decoration: none;
             color: #007bff;
-            cursor: pointer;
-            margin-top: 10px;
-            display: block;
         }
-
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="container" id="auth-container">
-        <h2>Login to Alpha College Database</h2>
-        
-        <!-- Login Form -->
-        <form id="login-form">
-            <div class="form-group">
-                <label for="login-email">Email:</label>
-                <input type="email" id="login-email" placeholder="Enter email">
-            </div>
-            <div class="form-group">
-                <label for="login-password">Password:</label>
-                <input type="password" id="login-password" placeholder="Enter password">
-            </div>
-            <button type="button" class="btn" onclick="login()">Login</button>
-        </form>
+    <div class="envelope" onclick="openInvitation()">
+        <div class="invitation">You’re Invited!</div>
     </div>
-
-    <!-- Database Container -->
-    <div class="container" id="database-container" style="display: none;">
-        <h2>Alpha College Database</h2>
-        <table id="database-table">
-            <tr>
-                <th>Student ID</th>
-                <th>Name</th>
-                <th>DOB</th>
-                <th>Alpha ID</th>
-                <th>Subjects</th>
-                <th>Teachers</th>
-                <th>Fees Paid</th>
-                <th>Actions</th>
-            </tr>
-            <!-- Example records -->
-            <tr class="status-yes">
-                <td contenteditable="true">1</td>
-                <td contenteditable="true">John Doe</td>
-                <td contenteditable="true">2001-05-14</td>
-                <td contenteditable="true">00012026</td>
-                <td contenteditable="true">Math, Science</td>
-                <td contenteditable="true">Mr. Smith</td>
-                <td contenteditable="true">Yes</td>
-                <td><button onclick="deleteRecord(this)">Delete</button></td>
-            </tr>
-            <tr class="status-no">
-                <td contenteditable="true">2</td>
-                <td contenteditable="true">Jane Smith</td>
-                <td contenteditable="true">2002-08-20</td>
-                <td contenteditable="true">00022026</td>
-                <td contenteditable="true">History, English</td>
-                <td contenteditable="true">Ms. Johnson</td>
-                <td contenteditable="true">No</td>
-                <td><button onclick="deleteRecord(this)">Delete</button></td>
-            </tr>
-            <tr class="status-yes">
-                <td contenteditable="true">3</td>
-                <td contenteditable="true">Alice Brown</td>
-                <td contenteditable="true">2003-03-12</td>
-                <td contenteditable="true">00032026</td>
-                <td contenteditable="true">Biology, Chemistry</td>
-                <td contenteditable="true">Dr. White</td>
-                <td contenteditable="true">Yes</td>
-                <td><button onclick="deleteRecord(this)">Delete</button></td>
-            </tr>
-            <tr class="status-no">
-                <td contenteditable="true">4</td>
-                <td contenteditable="true">Bob Green</td>
-                <td contenteditable="true">2004-09-09</td>
-                <td contenteditable="true">00042026</td>
-                <td contenteditable="true">Physics, English</td>
-                <td contenteditable="true">Ms. Black</td>
-                <td contenteditable="true">No</td>
-                <td><button onclick="deleteRecord(this)">Delete</button></td>
-            </tr>
-            <tr class="status-yes">
-                <td contenteditable="true">5</td>
-                <td contenteditable="true">Charlie White</td>
-                <td contenteditable="true">2005-01-30</td>
-                <td contenteditable="true">00052026</td>
-                <td contenteditable="true">Math, History</td>
-                <td contenteditable="true">Mr. Gray</td>
-                <td contenteditable="true">Yes</td>
-                <td><button onclick="deleteRecord(this)">Delete</button></td>
-            </tr>
-        </table>
-        <button class="btn" onclick="addRecord()">Add Record</button>
+    <div class="note" id="note">
+        <h3>Arrival</h3>
+        <div class="icon">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Clock_icon_blue.svg" alt="Clock">
+            <span>8:00 AM</span>
+        </div>
+        <h3>Location</h3>
+        <div class="icon">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/88/Map_Icon.svg" alt="Map">
+            <a href="https://maps.google.com" target="_blank">View on Map</a>
+        </div>
+        <h3>Contact</h3>
+        <div class="icon">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Phone_icon.svg" alt="Phone">
+            <a href="tel:+123456789">+123456789</a>
+        </div>
     </div>
-
     <script>
-        // Dummy user credentials
-        const users = [{ email: "hassanbinshahbaz@gmail.com", password: "789#@!ik" }];
-
-        function login() {
-            const email = document.getElementById("login-email").value;
-            const password = document.getElementById("login-password").value;
-            const user = users.find(user => user.email === email && user.password === password);
-
-            if (user) {
-                document.getElementById("auth-container").style.display = "none";
-                document.getElementById("database-container").style.display = "block";
-                alert("Login successful!");
-            } else {
-                alert("Incorrect email or password. Access Denied.");
-            }
-        }
-
-        function deleteRecord(button) {
-            const row = button.parentNode.parentNode;
-            row.parentNode.removeChild(row);
-        }
-
-        function addRecord() {
-            const table = document.getElementById("database-table");
-            const newRow = table.insertRow(-1); // Add to the end of the table
-
-            // Add new cells
-            for (let i = 0; i < 8; i++) {
-                const newCell = newRow.insertCell(i);
-                if (i < 6) {
-                    newCell.contentEditable = "true"; // Make the first 6 cells editable
-                }
-                if (i === 6) { // Fees column
-                    newCell.innerHTML = "No"; // Default value
-                }
-                if (i === 7) { // Actions column
-                    newCell.innerHTML = '<button onclick="deleteRecord(this)">Delete</button>';
-                }
-            }
-            // Add default data in the new cells
-            newRow.cells[0].innerText = table.rows.length - 1; // Student ID (auto increment)
-            newRow.cells[3].innerText = ('0000' + (table.rows.length - 1) + 2026).slice(-8); // Alpha ID (auto format)
+        function openInvitation() {
+            document.querySelector('.envelope::before').style.transform = 'rotateX(180deg)';
+            document.querySelector('.envelope::after').style.transform = 'rotateX(-180deg)';
+            setTimeout(() => {
+                document.querySelector('.invitation').style.display = 'none';
+                document.getElementById('note').style.display = 'block';
+            }, 500);
         }
     </script>
 </body>
-                    </html>
+</html>
