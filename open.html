@@ -3,130 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Invitation</title>
+    <title>Animated Envelope Website</title>
     <style>
         body {
+            background-color: #FFC0CB;
             margin: 0;
-            padding: 0;
-            font-family: 'Arial, sans-serif';
-            background-color: #ffe6f2; /* Light pink background */
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             overflow: hidden;
+            font-family: Arial, sans-serif;
         }
+
         .envelope {
             position: relative;
-            width: 300px;
-            height: 200px;
-            background: white;
-            border-radius: 8px;
+            width: 150px;
+            height: 150px;
+            background-color: #FFD700;
+            border-radius: 10%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             display: flex;
             justify-content: center;
             align-items: center;
+            font-size: 100px; /* Enlarge the emoji */
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.5s ease;
         }
-        .envelope::before, .envelope::after {
+
+        .envelope::before {
             content: '';
             position: absolute;
-            width: 100%;
-            height: 50%;
-            background: white;
-            transform-origin: top;
-            transition: 0.5s;
+            top: -20px;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-bottom: 20px solid #FFD700;
+            transform: translateX(-50%);
         }
-        .envelope::before {
-            top: 0;
-            transform: rotateX(0deg);
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
-        }
-        .envelope::after {
-            bottom: 0;
-            transform: rotateX(0deg);
-            border-bottom-left-radius: 8px;
-            border-bottom-right-radius: 8px;
-        }
-        .invitation {
-            font-family: 'Brush Script MT', cursive;
-            font-size: 24px;
-            text-align: center;
-            color: #333;
-            display: none;
-        }
-        .note {
-            display: none;
+
+        .envelope .content {
             position: absolute;
-            top: 20px;
-            width: 80%;
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-        .note h3 {
-            margin: 10px 0;
-            color: #ff66b3;
-        }
-        .note .icon {
+            width: 100%;
+            height: 100%;
+            background-color: #FFF;
             display: flex;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            margin: 10px 0;
+            transform-origin: bottom center;
+            transform: translateY(100%);
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            opacity: 0;
         }
-        .note .icon img {
-            width: 24px;
-            height: 24px;
-            margin-right: 10px;
-            animation: pulse 1.5s infinite;
+
+        .envelope .content.visible {
+            transform: translateY(0);
+            opacity: 1;
         }
-        .note .icon a {
+
+        .envelope .note {
+            background-color: #FFF;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .envelope .icons {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .envelope .icons a {
+            font-size: 24px;
+            color: #000;
             text-decoration: none;
-            color: #007bff;
-        }
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.2);
-            }
-            100% {
-                transform: scale(1);
-            }
         }
     </style>
 </head>
 <body>
-    <div class="envelope" onclick="openInvitation()">
-        <div class="invitation">You’re Invited!</div>
-    </div>
-    <div class="note" id="note">
-        <h3>Arrival</h3>
-        <div class="icon">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Clock_icon_blue.svg" alt="Clock">
-            <span>8:00 AM</span>
-        </div>
-        <h3>Location</h3>
-        <div class="icon">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/8/88/Map_Icon.svg" alt="Map">
-            <a href="https://maps.google.com" target="_blank">View on Map</a>
-        </div>
-        <h3>Contact</h3>
-        <div class="icon">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Phone_icon.svg" alt="Phone">
-            <a href="tel:+123456789">+123456789</a>
+    <div class="envelope" onclick="toggleEnvelope()">
+        ✉
+        <div class="content">
+            <div class="note">Hello! Welcome to our site. Feel free to explore using the icons below:</div>
+            <div class="icons">
+                <a href="https://maps.google.com" target="_blank" title="Location 📍">&#128205;</a>
+                <a href="tel:+1234567890" title="Call 📞">&#128222;</a>
+            </div>
         </div>
     </div>
+
     <script>
-        function openInvitation() {
-            document.querySelector('.envelope::before').style.transform = 'rotateX(180deg)';
-            document.querySelector('.envelope::after').style.transform = 'rotateX(-180deg)';
-            setTimeout(() => {
-                document.querySelector('.invitation').style.display = 'none';
-                document.getElementById('note').style.display = 'block';
-            }, 500);
+        function toggleEnvelope() {
+            var envelope = document.querySelector('.envelope');
+            var content = document.querySelector('.content');
+
+            if (content.classList.contains('visible')) {
+                content.classList.remove('visible');
+                envelope.style.opacity = 1;
+            } else {
+                content.classList.add('visible');
+                envelope.style.opacity = 0;
+            }
         }
     </script>
 </body>
