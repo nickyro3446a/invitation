@@ -3,61 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Click the button to see a message">
-    <title>Open and Reveal Message</title>
+    <title>2nd Anniversary 🫶👉👈</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f8ff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .container {
             text-align: center;
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .timer {
+            font-size: 3em;
+            margin-top: 20%;
+            color: #333;
         }
 
-        button {
-            background-color: #28a745;
-            color: red;
-            font-size: 18px;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+        .lock {
+            font-size: 100px;
+            color: gold;
+            display: inline-block;
+            animation: lockAnimation 5s infinite;
         }
 
-        #message {
+        .unlock {
             display: none;
-            font-size: 24px;
-            color: #e63946;
+            font-size: 100px;
+            color: green;
             margin-top: 20px;
+        }
+
+        .party-popper {
+            display: none;
+            font-size: 100px;
+            color: red;
+            animation: popAnimation 1s ease-out;
+        }
+
+        .note {
+            display: none;
+            font-size: 2em;
+            color: #333;
+            animation: fadeIn 3s ease;
+        }
+
+        .anniversary-text {
+            font-size: 2.5em;
+            color: #FF6347;
+            margin-top: 30px;
+            font-weight: bold;
+            opacity: 0;
+            animation: textAnimation 3s forwards;
+        }
+
+        @keyframes lockAnimation {
+            0% {
+                transform: rotate(0deg);
+            }
+            50% {
+                transform: rotate(180deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes popAnimation {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.5);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes textAnimation {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <button id="openButton">Open</button>
-        <p id="message">I Love You Meri Jaaan!</p>
+
+    <div class="timer">
+        <div id="countdown"></div>
+        <div id="anniversaryText" class="anniversary-text">2ND ANNIVERSARY</div>
+        <div id="lock" class="lock">🔒</div>
+        <div id="unlock" class="unlock">🔓</div>
+        <div id="partyPopper" class="party-popper">🎉</div>
+        <div id="note" class="note">Congratulations on the 2nd Anniversary!❤️😁🫶
+jaan I love u . Ap k ilawa janu or ksi ka muje sath nhi chaia .or emaan abhi thori si mushkilat hui wi pr koi na jan hm dono sath hain or hm sath sb dekhlenge.janu jb pehli bar apko dekha tha main ksm s pehli bar apne andr ka neech Hassan bhula tha main chata tha k ksi k lia bdlun jesa usko chaia main wesa hun or jan muje sb k t the u not perfect for her pr janu main sirf apka hona chata tha or apko apna bnana chata tha isilia mene apne apko change kra I wanted to be the perfect man for u janu main ab bhi apne apko sudhar ra fr jan .
+or jan abhi ki tensan nalo hm sath dekhlege or inshallah sb shi hona abbs inshallah hm khud aik dusre k ghr pr btaenge k hm aik dusre s pyar krte or jan jb dono trf s nikkah ki niyt hoto wo mohabat to allah bhi qabool krta .
+jaaaaan ap bs prho or jan ab inshallah aisa kuch nhi hoga cuz ab main bhi careful ok meri jan or main sb dekhlunga meri jan.
+I love u januuuuuuuuuuuuuuuuuuuuuuuuuuuu❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️
+
+
+2 years and still counting🤣🤣🤣🤣🤣🤣🤣🤣🤣🤣
+
+
+Ignore the typo😁😁😁😁
+</div>
     </div>
 
     <script>
-        // Select the button and message elements
-        const openButton = document.getElementById('openButton');
-        const message = document.getElementById('message');
+        // Set the target date and time
+        const targetDate = new Date("2025-01-07T00:00:00").getTime();
 
-        // Add a click event listener to the button
-        openButton.addEventListener('click', function() {
-            // When button is clicked, display the message
-            message.style.display = 'block';
-        });
+        // Update the countdown every second
+        const countdownElement = document.getElementById('countdown');
+        const anniversaryText = document.getElementById('anniversaryText');
+        const lock = document.getElementById('lock');
+        const unlock = document.getElementById('unlock');
+        const partyPopper = document.getElementById('partyPopper');
+        const note = document.getElementById('note');
+
+        const interval = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            // Time calculations for days, hours, minutes, and seconds
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the countdown
+            countdownElement.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+
+            // Show the "2ND ANNIVERSARY" text with animation while the timer is running
+            if (distance > 0) {
+                anniversaryText.style.opacity = 1;
+            }
+
+            // When the countdown ends
+            if (distance <= 0) {
+                clearInterval(interval);
+                countdownElement.innerHTML = "EXPIRED";
+
+                // Unlock the lock and show party popper animation
+                lock.style.display = "none";
+                unlock.style.display = "inline-block";
+                partyPopper.style.display = "inline-block";
+
+                // Show note with fade-in effect
+                note.style.display = "block";
+            }
+        }, 1000);
     </script>
+
 </body>
 </html>
