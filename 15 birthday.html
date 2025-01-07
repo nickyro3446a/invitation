@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Wish</title>
+    <style>
+        body {
+            background-color: #f5f0f7;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .diary-container {
+            position: relative;
+            width: 300px;
+            height: 400px;
+            background-color: #f9ebc1;
+            border-radius: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+        }
+
+        .diary-front {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #ffb6c1;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: transform 1.5s ease-in-out;
+            transform-origin: left;
+            z-index: 10;
+        }
+
+        .diary-opened {
+            transform: rotateY(-180deg);
+        }
+
+        .lock {
+            font-size: 2em;
+            color: #8b008b;
+            margin-bottom: 20px;
+        }
+
+        .timer {
+            font-size: 1.2em;
+            color: #ff64b0;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .sticker-image {
+            width: 150px;
+            height: 150px;
+            background-size: cover;
+            background-position: center;
+            margin-top: 10px;
+        }
+
+        .diary-content {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #ffebf1;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            padding: 10px;
+        }
+
+        .diary-content h1 {
+            font-size: 2.5em;
+            color: #ff64b0;
+            margin-bottom: 20px;
+        }
+
+        .diary-content p {
+            font-size: 1.5em;
+            color: #ff3385;
+        }
+
+        .diary-content.visible {
+            opacity: 1;
+        }
+
+        .emoji {
+            font-size: 2em;
+            margin: 0 10px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="diary-container">
+        <!-- Front of the diary -->
+        <div class="diary-front" id="diaryFront">
+            <div class="lock">🔒</div>
+            <div class="timer" id="timer"></div>
+            <div class="sticker-image" id="sticker" style="background-image: url('download.jpg');"></div>
+            <p>JANU's TURNING 15❤️🫶😁👉👈</p>
+        </div>
+
+        <!-- Opened diary content -->
+        <div class="diary-content" id="diaryContent">
+            <h1>🎉 Happy Birthday, Sweet Girl! 🎂</h1>
+            <p>Wishing you a day full of love, happiness, and magic! 💖🎈</p>
+            <div>
+                <span class="emoji">🎁</span>
+                <span class="emoji">🌸</span>
+                <span class="emoji">🥳</span>
+                <span class="emoji">💐</span>
+                <span class="emoji">🍰</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Set the target date (January 12, 2025 at midnight)
+        const targetDate = new Date("Jan 12, 2025 00:00:00").getTime();
+
+        // Update the countdown every 1 second
+        const timer = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            // Calculate days, hours, minutes, and seconds
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the timer
+            document.getElementById("timer").innerHTML = 
+                `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+            // If the countdown is finished, fade out the lock and show the birthday message
+            if (distance < 0) {
+                clearInterval(timer);
+                document.getElementById("diaryFront").classList.add("diary-opened");
+                document.getElementById("diaryContent").classList.add("visible");
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
