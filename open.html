@@ -3,114 +3,262 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animated Envelope Website</title>
+    <title>Birthday Wish</title>
     <style>
         body {
-            background-color: #FFC0CB;
+            background-color: #f5f0f7;
+            font-family: 'Arial', sans-serif;
             margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            flex-direction: column;
             overflow: hidden;
         }
 
-        .envelope {
+        .diary-container {
             position: relative;
-            width: 200px;
-            height: 300px;
-            background-color: #FFD700;
-            transform: rotate(-45deg);
-            transition: all 0.5s ease;
+            width: 95vw;
+            height: 85vh;
+            background-color: #f9ebc1;
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            cursor: pointer;
         }
 
-        .envelope .flap {
-            position: absolute;
-            width: 50%;
-            height: 100%;
-            background-color: #FFD700;
-            top: 0;
-            transform-origin: 100% 100%;
-            transition: transform 0.5s ease;
-        }
-
-        .envelope .flap.left {
-            left: 0;
-            transform: rotate(45deg);
-        }
-
-        .envelope .flap.right {
-            right: 0;
-            transform: rotate(-45deg);
-        }
-
-        .content {
+        .diary-front, .diary-second-page {
             position: absolute;
             width: 100%;
             height: 100%;
-            display: none;
+            background-color: #ffb6c1;
+            border-radius: 15px;
+            display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            transition: transform 1.5s ease-in-out;
+            transform-origin: left;
+            z-index: 10;
         }
 
-        .content.visible {
+        .diary-opened {
+            transform: rotateY(-180deg);
+        }
+
+        .diary-second-page {
+            transform: rotateY(180deg);
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .diary-second-page.visible {
+            opacity: 1;
+            transform: rotateY(0deg);
+        }
+
+        .lock {
+            font-size: 2.5em;
+            color: #8b008b;
+            margin-bottom: 10px;
+        }
+
+        .timer {
+            font-size: 1.2em;
+            color: #ff64b0;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .sticker-image {
+            width: 100px;
+            height: 100px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 50%;
+            margin-top: 10px;
+            border: 4px solid #ff3385;
+        }
+
+        .diary-content {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #ffebf1;
+            border-radius: 15px;
             display: flex;
-        }
-
-        .content .note {
-            background-color: #FFFFFF;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
             padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            overflow-y: auto;
+        }
+
+        .diary-content.visible {
+            opacity: 1;
+        }
+
+        .diary-content h1 {
+            font-size: 1.8em;
+            color: #ff64b0;
+            margin-bottom: 15px;
             text-align: center;
-            margin-bottom: 20px;
-            font-family: 'Courier New', Courier, monospace;
         }
 
-        .content .icons {
-            display: flex;
-            gap: 20px;
+        .diary-content p {
+            font-size: 1em;
+            color: #ff3385;
+            text-align: justify;
+            line-height: 1.6;
+            max-width: 90%;
         }
 
-        .content .icons a {
-            font-size: 24px;
-            color: #000;
-            text-decoration: none;
+        .stamp-frame {
+            width: 180px;
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+            border: 6px solid #ff3385;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .emoji {
+            font-size: 1.8em;
+            margin: 0 5px;
+        }
+
+        .note {
+            font-family: 'Brush Script', cursive;
+            font-size: 1.5em;
+            color: #333;
+            max-width: 90%;
+            margin: 15px 0;
+            padding: 15px;
+            text-align: left;
+            line-height: 1.6;
+            border-left: 2px solid #ff3385;
+            padding-left: 15px;
+        }
+
+        .line {
+            border-bottom: 1px solid #ff3385;
+            margin: 8px 0;
+            height: 1px;
+        }
+
+        @media screen and (max-width: 600px) {
+            .diary-front, .diary-content, .diary-second-page {
+                width: 100%;
+                height: 100%;
+            }
+            .sticker-image {
+                width: 80px;
+                height: 80px;
+            }
+            .diary-content h1 {
+                font-size: 1.5em;
+            }
+            .diary-content p {
+                font-size: 0.9em;
+            }
+            .stamp-frame {
+                width: 150px;
+                height: 150px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="envelope" onclick="toggleEnvelope()">
-        <div class="flap left"></div>
-        <div class="flap right"></div>
-        <div class="content">
-            <div class="note">Hello! Welcome to our site. Feel free to explore using the icons below:</div>
-            <div class="icons">
-                <a href="https://maps.app.goo.gl/yNa3hqRtA4pb93vFA" target="_blank" title="Location 📍">&#128205;</a>
-                <a href="tel:+923319231539" title="Call 📞">&#128222;</a>
+        <div class="diary-container" id="diaryContainer">
+        <!-- Front of the diary -->
+        <div class="diary-front" id="diaryFront">
+            <div class="lock">🔒</div>
+            <div class="timer" id="timer"></div>
+            <div class="sticker-image" id="sticker" style="background-image: url('https://scontent.xx.fbcdn.net/v/t1.15752-9/471948904_992501429376951_1445949834941845090_n.jpg?stp=dst-jpg_s640x640_tt6&_nc_cat=101&ccb=1-7&_nc_sid=0024fc&_nc_ohc=r0ICnBy4XjIQ7kNvgF9CRjr&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent.xx&oh=03_Q7cD1gF34VoA0PZyN5XKnXeypG985TQCs0kibXISTtmF7eLc7A&oe=67A44EDE');"></div>
+            <p>JANU's TURNING 15❤️🫶😁👉👈</p>
+        </div>
+
+        <!-- Opened diary content -->
+        <div class="diary-content" id="diaryContent">
+            <h1>🎉 JANAM DIN KI DHAIR SARI BHDAE HO JANU🫶♥️ 🎂</h1>
+            <p>Wishing you a day full of love, happiness, and magic! 💖🎈</p>
+            <div class="stamp-frame" style="background-image: url('https://instagram.fkhi11-1.fna.fbcdn.net/v/t1.15752-9/470053615_1123123642852441_2047801772821586202_n.jpg?stp=dst-jpg_p480x480_tt6&_nc_cat=100&ccb=1-7&_nc_sid=0024fc&_nc_ohc=ftGpWu5OvaIQ7kNvgHHIsH2&_nc_oc=AdjSswVQNE9TDnY8HHs-G_rAFFBBvwoVcYF82uf-cWRdcyeDyXDXlvPf_XB02QK80_M&_nc_zt=23&_nc_ht=instagram.fkhi11-1.fna&oh=03_Q7cD1gEC6FvqPFErI2mi3ZfUffVWWydlfln59yHvOl0tquIS6Q&oe=67A6E8CD');"></div>
+            <p>Here's to celebrating you with all the joy in the world! 🎁🌸</p>
+            <div>
+                <span class="emoji">🎁</span>
+                <span class="emoji">🌸</span>
+                <span class="emoji">🥳</span>
+                <span class="emoji">💐</span>
+                <span class="emoji">🍰</span>
+            </div>
+        </div>
+
+        <!-- Second Page of the Diary -->
+        <div class="diary-second-page" id="diarySecondPage">
+            <div class="note">
+                Dear Janu,<br><br>
+                I hope this special day brings you all the happiness in the world. Here's to many more wonderful memories and adventures ahead!(ye main k ta agr burger hota 🤣)
+                Januuuuuuuuuuuuuu ♥️♥️♥️♥️♥️♥️♥️ I love uuuuu
+12 ki thi jb apko dekha tha 🤭🫣ab mashallah alhumdullilah 15 ki hogae mere se shadi krne ki umr kareeb ari inshallah nikkahfied in 4 years us we official inshallah jan ♥️ Janu ♥️ Meri JaNNN ♥️ bs inshallah 4 sal or phir to apko ghr akr bday wish krunga wese mene Koshish kri k acha gift dun pr Sirf aik sketch gift krpaya ik or bhi milenge bap bap gift inshallah pr Jan abhi main yhi d skta pr janu inshallah 4 sal bad we will inshallah celebrate your bap bday inshallah ♥️♥️♥️♥️♥️♥️♥️♥️♥️♥️♥️♥️♥️♥️I love u januuuuuuuuuuuuuu ♥️ I love u so muchhh jannnn or Jan I miss uuuuuuuuuuuuuu.
+Or jann ♥️ aik bat btaun kbhi wese in general khi nhi abhi btara apki wja s Jan mene khud k lia apne Lia apke Lia apni life k lia hmari life k lia Jena shuru kra fr pehle to wrna bs login k peeche bhagta tha or pta nhi kia f hrktain krta tha like Jese jita pehle prha wo aik sec ko bhi islia nhi prha k bap result aye Sirf ghr ki satisfaction k lia pr ab prhta apke apne or hmare Lia pehle racing drifting krta firing k cool kbhi y nhi socha krta q bs logon ko acha lgra oye hoye Hassan pr apne btaya is k ilawa bhi Hassan Kuch hai Hassan emaan ka hai Janu ♥️ apne pas rkhlo bs I love u januuuuuuuuuuuuuu ♥️ I love u sooo muchhh and apko salgra mubarak 😁bhdae ho<br><br>
+                <span class="line"></span>
+                <span class="line"></span>
+                <span class="line"></span>
             </div>
         </div>
     </div>
 
     <script>
-        function toggleEnvelope() {
-            var envelope = document.querySelector('.envelope');
-            var content = document.querySelector('.content');
-            var flapLeft = document.querySelector('.flap.left');
-            var flapRight = document.querySelector('.flap.right');
+        let flipStage = 0; // Track which flip we are on (0: locked, 1: front open, 2: content visible, 3: second page open)
 
-            if (content.classList.contains('visible')) {
-                content.classList.remove('visible');
-                flapLeft.style.transform = 'rotate(45deg)';
-                flapRight.style.transform = 'rotate(-45deg)';
-            } else {
-                content.classList.add('visible');
-                flapLeft.style.transform = 'rotate(0)';
-                flapRight.style.transform = 'rotate(0)';
+        // Set the target date (January 2, 2025 at midnight)
+        const targetDate = new Date("Jan 2, 2025 00:00:00").getTime();
+
+        // Update the countdown every 1 second
+        const timer = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            // Calculate days, hours, minutes, and seconds
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the timer
+            document.getElementById("timer").innerHTML = 
+                `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+            // If the countdown is finished, unlock the diary and allow interaction
+            if (distance < 0) {
+                clearInterval(timer);
+                document.getElementById("diaryFront").classList.add("diary-opened");
+                document.getElementById("diaryContent").classList.add("visible");
+                flipStage = 1; // Enable flipping of pages
             }
-        }
+        }, 1000);
+
+        // Diary interaction logic (flip pages on tap)
+        document.getElementById("diaryContainer").addEventListener("click", function() {
+            if (flipStage === 1) {
+                // Show the second page
+                setTimeout(() => {
+                    document.getElementById("diarySecondPage").classList.add("visible");
+                }, 2000); // Delay to allow the content to be visible
+                flipStage = 2;
+            }
+        });
     </script>
 </body>
 </html>
