@@ -64,12 +64,15 @@
             margin-bottom: 20px;
         }
 
+        /* Circular Image on Front of Diary */
         .sticker-image {
-            width: 150px;
-            height: 150px;
+            width: 100px;
+            height: 100px;
             background-size: cover;
             background-position: center;
+            border-radius: 50%; /* Circular frame */
             margin-top: 10px;
+            border: 5px solid #ff3385; /* Add a border for a nice look */
         }
 
         .diary-content {
@@ -84,7 +87,7 @@
             align-items: center;
             opacity: 0;
             transition: opacity 1s ease-in-out;
-            padding: 10px;
+            padding: 20px;
         }
 
         .diary-content h1 {
@@ -96,6 +99,21 @@
         .diary-content p {
             font-size: 1.5em;
             color: #ff3385;
+            text-align: justify;
+            line-height: 1.6;
+        }
+
+        /* Picture inside diary content in a stamp frame */
+        .stamp-frame {
+            width: 200px;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            border: 8px solid #ff3385;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
         .diary-content.visible {
@@ -126,8 +144,10 @@
 
         <!-- Opened diary content -->
         <div class="diary-content" id="diaryContent">
-            <h1>🎉 Happy Birthday, Sweet Girl! 🎂</h1>
+            <h1>🎉 JANAM DIN KI DHAIR SARI BHDAE HO JANU🫶♥️ 🎂</h1>
             <p>Wishing you a day full of love, happiness, and magic! 💖🎈</p>
+            <div class="stamp-frame" style="background-image: url('https://www.example.com/your-image.jpg');"></div>
+            <p>Here's to celebrating you with all the joy in the world! 🎁🌸</p>
             <div>
                 <span class="emoji">🎁</span>
                 <span class="emoji">🌸</span>
