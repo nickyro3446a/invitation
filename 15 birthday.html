@@ -31,6 +31,7 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
+            cursor: pointer; /* Makes the container clickable */
         }
 
         .diary-front, .diary-second-page {
@@ -182,7 +183,7 @@
     </style>
 </head>
 <body>
-    <div class="diary-container">
+    <div class="diary-container" id="diaryContainer">
         <!-- Front of the diary -->
         <div class="diary-front" id="diaryFront">
             <div class="lock">🔒</div>
@@ -219,8 +220,10 @@
     </div>
 
     <script>
-        // Set the target date (January 12, 2025 at midnight)
-        const targetDate = new Date("Jan 12, 2025 00:00:00").getTime();
+        let flipStage = 0; // Track which flip we are on (0: locked, 1: front open, 2: content visible, 3: second page open)
+
+        // Set the target date (January 2, 2025 at midnight)
+        const targetDate = new Date("Jan 2, 2025 00:00:00").getTime();
 
         // Update the countdown every 1 second
         const timer = setInterval(function() {
@@ -237,18 +240,25 @@
             document.getElementById("timer").innerHTML = 
                 `${days}d ${hours}h ${minutes}m ${seconds}s`;
 
-            // If the countdown is finished, fade out the lock and show the birthday message
+            // If the countdown is finished, unlock the diary and allow interaction
             if (distance < 0) {
                 clearInterval(timer);
                 document.getElementById("diaryFront").classList.add("diary-opened");
                 document.getElementById("diaryContent").classList.add("visible");
-
-                // After the diary content opens, trigger the second page flip
-                setTimeout(() => {
-                    document.getElementById("diarySecondPage").classList.add("visible");
-                }, 1500); // Delay to allow the first page to fully open
+                flipStage = 1; // Enable flipping of pages
             }
         }, 1000);
+
+        // Diary interaction logic (flip pages on tap)
+        document.getElementById("diaryContainer").addEventListener("click", function() {
+            if (flipStage === 1) {
+                // Show the second page
+                setTimeout(() => {
+                    document.getElementById("diarySecondPage").classList.add("visible");
+                }, 2000); // Delay to allow the content to be visible
+                flipStage = 2;
+            }
+        });
     </script>
 </body>
 </html>
