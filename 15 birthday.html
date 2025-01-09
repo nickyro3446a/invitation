@@ -15,12 +15,13 @@
             align-items: center;
             height: 100vh;
             flex-direction: column;
+            overflow: hidden;
         }
 
         .diary-container {
             position: relative;
-            width: 300px;
-            height: 400px;
+            width: 90vw;
+            height: 90vh;
             background-color: #f9ebc1;
             border-radius: 20px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -29,10 +30,10 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 10px;
+            padding: 20px;
         }
 
-        .diary-front {
+        .diary-front, .diary-second-page {
             position: absolute;
             width: 100%;
             height: 100%;
@@ -51,28 +52,38 @@
             transform: rotateY(-180deg);
         }
 
+        .diary-second-page {
+            transform: rotateY(180deg);
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .diary-second-page.visible {
+            opacity: 1;
+            transform: rotateY(0deg);
+        }
+
         .lock {
-            font-size: 2em;
+            font-size: 3em;
             color: #8b008b;
             margin-bottom: 20px;
         }
 
         .timer {
-            font-size: 1.2em;
+            font-size: 1.5em;
             color: #ff64b0;
             font-weight: bold;
             margin-bottom: 20px;
         }
 
-        /* Circular Image on Front of Diary */
         .sticker-image {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             background-size: cover;
             background-position: center;
-            border-radius: 50%; /* Circular frame */
+            border-radius: 50%;
             margin-top: 10px;
-            border: 5px solid #ff3385; /* Add a border for a nice look */
+            border: 5px solid #ff3385;
         }
 
         .diary-content {
@@ -87,49 +98,87 @@
             align-items: center;
             opacity: 0;
             transition: opacity 1s ease-in-out;
-            padding: 20px;
-        }
-
-        .diary-content h1 {
-            font-size: 2.5em;
-            color: #ff64b0;
-            margin-bottom: 20px;
-        }
-
-        .diary-content p {
-            font-size: 1.5em;
-            color: #ff3385;
-            text-align: justify;
-            line-height: 1.6;
-        }
-
-        /* Picture inside diary content in a stamp frame */
-        .stamp-frame {
-            width: 200px;
-            height: 200px;
-            background-size: cover;
-            background-position: center;
-            border: 8px solid #ff3385;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            position: relative;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            overflow-y: auto;
         }
 
         .diary-content.visible {
             opacity: 1;
         }
 
+        .diary-content h1 {
+            font-size: 2.5em;
+            color: #ff64b0;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .diary-content p {
+            font-size: 1.5em;
+            color: #ff3385;
+            text-align: justify;
+            line-height: 1.8;
+            max-width: 80%;
+        }
+
+        .stamp-frame {
+            width: 250px;
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            border: 8px solid #ff3385;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
         .emoji {
-            font-size: 2em;
+            font-size: 2.5em;
             margin: 0 10px;
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
+        /* Cursive note and lines for writing */
+        .note {
+            font-family: 'Brush Script', cursive;
+            font-size: 2em;
+            color: #333;
+            max-width: 80%;
+            margin: 20px 0;
+            padding: 20px;
+            text-align: left;
+            line-height: 1.8;
+            border-left: 3px solid #ff3385;
+            padding-left: 20px;
         }
 
+        /* Horizontal lines for the note */
+        .line {
+            border-bottom: 1px solid #ff3385;
+            margin: 10px 0;
+            height: 1px;
+        }
+
+        /* Adjustments for mobile responsiveness */
+        @media screen and (max-width: 600px) {
+            .diary-container {
+                width: 95vw;
+                height: 95vh;
+            }
+            .diary-front, .diary-content, .diary-second-page {
+                width: 100%;
+                height: 100%;
+            }
+            .sticker-image {
+                width: 100px;
+                height: 100px;
+            }
+            .diary-content h1 {
+                font-size: 2em;
+            }
+            .diary-content p {
+                font-size: 1.2em;
+            }
+        }
     </style>
 </head>
 <body>
@@ -146,8 +195,7 @@
         <div class="diary-content" id="diaryContent">
             <h1>🎉 JANAM DIN KI DHAIR SARI BHDAE HO JANU🫶♥️ 🎂</h1>
             <p>Wishing you a day full of love, happiness, and magic! 💖🎈</p>
-            <div class="stamp-frame" style="background-image: url('https://instagram.fkhi11-1.fna.fbcdn.net/v/t1.15752-9/470053615_1123123642852441_2047801772821586202_n.jpg?stp=dst-jpg_p480x480_tt6&_nc_cat=100&ccb=1-7&_nc_sid=0024fc&_nc_ohc=ftGpWu5OvaIQ7kNvgHHIsH2&_nc_oc=AdjSswVQNE9TDnY8HHs-G_rAFFBBvwoVcYF82uf-cWRdcyeDyXDXlvPf_XB02QK80_M&_nc_zt=23&_nc_ht=instagram.fkhi11-1.fna&oh=03_Q7cD1gEC6FvqPFErI2mi3ZfUffVWWydlfln59yHvOl0tquIS6Q&oe=67A6E8CD
-                ');"></div>
+            <div class="stamp-frame" style="background-image: url('https://instagram.fkhi11-1.fna.fbcdn.net/v/t1.15752-9/470053615_1123123642852441_2047801772821586202_n.jpg?stp=dst-jpg_p480x480_tt6&_nc_cat=100&ccb=1-7&_nc_sid=0024fc&_nc_ohc=ftGpWu5OvaIQ7kNvgHHIsH2&_nc_oc=AdjSswVQNE9TDnY8HHs-G_rAFFBBvwoVcYF82uf-cWRdcyeDyXDXlvPf_XB02QK80_M&_nc_zt=23&_nc_ht=instagram.fkhi11-1.fna&oh=03_Q7cD1gEC6FvqPFErI2mi3ZfUffVWWydlfln59yHvOl0tquIS6Q&oe=67A6E8CD');"></div>
             <p>Here's to celebrating you with all the joy in the world! 🎁🌸</p>
             <div>
                 <span class="emoji">🎁</span>
@@ -155,6 +203,17 @@
                 <span class="emoji">🥳</span>
                 <span class="emoji">💐</span>
                 <span class="emoji">🍰</span>
+            </div>
+        </div>
+
+        <!-- Second Page of the Diary -->
+        <div class="diary-second-page" id="diarySecondPage">
+            <div class="note">
+                Dear Janu,<br><br>
+                I hope this special day brings you all the happiness in the world. Here's to many more wonderful memories and adventures ahead!<br><br>
+                <span class="line"></span>
+                <span class="line"></span>
+                <span class="line"></span>
             </div>
         </div>
     </div>
@@ -183,6 +242,11 @@
                 clearInterval(timer);
                 document.getElementById("diaryFront").classList.add("diary-opened");
                 document.getElementById("diaryContent").classList.add("visible");
+
+                // After the diary content opens, trigger the second page flip
+                setTimeout(() => {
+                    document.getElementById("diarySecondPage").classList.add("visible");
+                }, 1500); // Delay to allow the first page to fully open
             }
         }, 1000);
     </script>
