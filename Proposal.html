@@ -1,0 +1,109 @@
+
+<!DOCTYPE html><html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Marry Me, Emaan?</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to right, #ff758c, #ff7eb3);
+            font-family: Arial, sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+        .container {
+            position: relative;
+        }
+        .proposal {
+            font-size: 2em;
+            font-weight: bold;
+            color: white;
+            animation: fadeIn 2s ease-in-out;
+        }
+        .nicknames {
+            font-size: 1.5em;
+            margin-top: 10px;
+            color: white;
+            animation: bounce 2s infinite;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .hearts {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 30px;
+            animation: floatHearts 3s infinite;
+        }
+        @keyframes floatHearts {
+            0% { opacity: 0; transform: translateY(20px); }
+            50% { opacity: 1; }
+            100% { opacity: 0; transform: translateY(-20px); }
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            color: white;
+            background: #ff4b5c;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin: 10px;
+        }
+        button:hover {
+            background: #ff1e40;
+        }
+        #noBtn {
+            position: absolute;
+        }
+        .flower {
+            font-size: 50px;
+            opacity: 0;
+            transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hearts">❤️❤️❤️</div>
+        <div class="proposal">Will You Marry Me, Emaan?</div>
+        <div class="nicknames">Janu, Jan, Dora, Lady, Guria ❤️</div>
+        <div class="buttons">
+            <button id="yesBtn" onclick="showFlower()">Yes</button>
+            <button id="noBtn" onclick="moveNoButton()">No</button>
+        </div>
+        <div id="flower" class="flower">🌷</div>
+    </div>
+    <script>
+        function moveNoButton() {
+            let x = Math.random() * (window.innerWidth - 100);
+            let y = Math.random() * (window.innerHeight - 50);
+            document.getElementById('noBtn').style.left = `${x}px`;
+            document.getElementById('noBtn').style.top = `${y}px`;
+        }
+        function showFlower() {
+            let flower = document.getElementById('flower');
+            flower.style.opacity = '1';
+            flower.style.transform = 'scale(5)';
+            setTimeout(() => {
+                alert('NOW YOU ARE OFFICIALLY EMAAN HASSAN ❤️');
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
