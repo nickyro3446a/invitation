@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sorry My Lady</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, #ff758c, #ff7eb3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+    #intro {
+      text-align: center;
+      color: white;
+      animation: fadeIn 2s;
+    }
+    #main {
+      display: none;
+      text-align: center;
+      color: white;
+      animation: fadeIn 2s forwards;
+    }
+    h1 {
+      font-size: 4em;
+      animation: heartbeat 1.5s infinite;
+    }
+    .emoji {
+      position: absolute;
+      font-size: 2em;
+      animation: float 6s linear infinite;
+    }
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes float {
+      0% { transform: translateY(100vh); opacity: 1; }
+      100% { transform: translateY(-10vh); opacity: 0; }
+    }
+    button {
+      padding: 15px 30px;
+      font-size: 1.5em;
+      background: white;
+      color: #ff758c;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="intro">
+    <h1>Will you forgive me? 🌹</h1>
+    <button onclick="start()">Yes</button>
+  </div>
+
+  <div id="main">
+    <h1>SORRY MY LADY</h1>
+    <h1>I LOVE U</h1>
+  </div>
+
+  <!-- The audio file (must be in same folder) -->
+  <body>
+<audio id="audio" src="https://github.com/nickyro3446a/invitation/blob/0a5ae84ee4ffeaf8f77e8363f2d1c130d8888cf0/c.m4a" preload="auto"></audio>
+</body>
+
+  <script>
+    function start() {
+      // hide intro
+      document.getElementById('intro').style.display = 'none';
+      // show main content
+      document.getElementById('main').style.display = 'block';
+
+      // play the audio segment from 5:25 to 6:00
+      const audio = document.getElementById('audio');
+      audio.currentTime = 325; // start at 5:25
+      audio.play();
+      audio.ontimeupdate = () => {
+        if (audio.currentTime >= 360) { // stop at 6:00
+          audio.pause();
+          audio.currentTime = 325;
+        }
+      };
+
+      // spawn emojis
+      const emojis = ["🌷","🌹","❤️","💖","🌸","🌷"];
+      for (let i = 0; i < 40; i++) {
+        const e = document.createElement('div');
+        e.classList.add('emoji');
+        e.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+        e.style.left = Math.random() * 100 + 'vw';
+        e.style.animationDuration = 3 + Math.random() * 5 + 's';
+        e.style.fontSize = (1 + Math.random() * 3) + 'em';
+        document.body.appendChild(e);
+      }
+    }
+  </script>
+</body>
+</html>
