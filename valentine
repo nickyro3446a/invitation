@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Will You Be My Valentine?</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ff4e8a, #ff9ec6);
+      font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
+    }
+
+    .card {
+      background: white;
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      text-align: center;
+      max-width: 350px;
+      width: 90%;
+      position: relative;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+      color: #ff2e6f;
+      font-size: 26px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      position: relative;
+      height: 100px;
+    }
+
+    button {
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    #yesBtn {
+      background: #ff2e6f;
+      color: white;
+      font-size: 18px;
+      padding: 12px 30px;
+    }
+
+    #noBtn {
+      background: #eee;
+      color: #333;
+      font-size: 18px;
+      padding: 12px 30px;
+      position: absolute;
+    }
+
+    .message {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #ff2e6f;
+      display: none;
+      animation: fadeIn 1s ease;
+    }
+
+    .bubble {
+      display: none;
+      margin-top: 20px;
+      background: #ff2e6f;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 25px;
+      font-size: 24px;
+      font-weight: bold;
+      position: relative;
+      animation: pop 0.6s ease;
+    }
+
+    .bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 10px;
+      border-style: solid;
+      border-color: #ff2e6f transparent transparent transparent;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px);} 
+      to { opacity: 1; transform: translateY(0);} 
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- Background Music -->
+<audio id="bgMusic" preload="auto">
+  <source src="song.mpeg" type="audio/mpeg">
+</audio>
+
+<div class="card" id="card">
+  <h1 id="question">Will you be my Valentine? ❤️</h1>
+  <div class="buttons" id="buttons">
+    <button id="yesBtn">Yes</button>
+    <button id="noBtn">No</button>
+  </div>
+
+  <div class="bubble" id="loveBubble">I LOVE U 3000 ❤️</div>
+
+  <div class="message" id="message"></div>
+</div>
+
+<script>
+
+let noCount = 0;
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const message = document.getElementById("message");
+const question = document.getElementById("question");
+const bubble = document.getElementById("loveBubble");
+const music = document.getElementById("bgMusic");
+
+// Play music after 20 seconds automatically
+setTimeout(() => {
+  music.play().catch(() => {
+    console.log("Autoplay blocked until user interaction");
+  });
+}, 20000);
+
+const noTexts = [
+  "Think again 🥺",
+  "Are you sure? 😢",
+  "Please reconsider 💔",
+  "Don't break my heart 😭",
+  "Last chance 😳",
+  "Please say yes 💖",
+  "You're hurting me 😩",
+  "Be kind 🥹",
+  "Okay this is serious 😶"
+];
+
+noBtn.addEventListener("click", () => {
+  noCount++;
+
+  if (noCount <= noTexts.length) {
+    noBtn.innerText = noTexts[noCount - 1];
+  }
+
+  let yesSize = 18 + noCount * 6;
+  yesBtn.style.fontSize = yesSize + "px";
+  yesBtn.style.padding = (12 + noCount * 2) + "px " + (30 + noCount * 5) + "px";
+
+  let noSize = Math.max(18 - noCount * 2, 8);
+  noBtn.style.fontSize = noSize + "px";
+
+  if (noCount >= 3) {
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 50);
+
+    noBtn.style.position = "fixed";
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+  }
+
+  if (noCount >= 7) {
+    noBtn.style.display = "none";
+  }
+
+});
+
+yesBtn.addEventListener("click", () => {
+
+  question.innerText = "She said YES! ❤️";
+
+  yesBtn.style.display = "none";
+  noBtn.style.display = "none";
+
+  // Show I LOVE U 3000 bubble first
+  bubble.style.display = "inline-block";
+
+  // Play music immediately after Yes (backup in case autoplay blocked)
+  music.play().catch(() => {});
+
+  // After 3 seconds show original romantic message
+  setTimeout(() => {
+
+    message.style.display = "block";
+
+    message.innerHTML = `
+      Thank you for being my date ❤️<br><br>
+      I promise I will always make you happy,<br>
+      protect your smile,<br>
+      and give you the love you deserve.<br><br>
+      And I will gift you a Dyson, Inshallah ✨
+    `;
+
+  }, 3000);
+
+});
+
+</script>
+
+</body>
+</html>
